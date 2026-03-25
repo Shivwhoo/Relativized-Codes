@@ -1,0 +1,371 @@
+﻿========================================
+Relativized Codes Simulation
+Based on the paper by Daley, Jurgensen, et al.
+Theoretical Computer Science 429 (2012) 54-64
+========================================
+
+============================================================
+Example 3.1 from the paper
+C = {a, ab, ba} is not a code
+============================================================
+Code C = {a, ab, ba}
+Properties:
+    Prefix-free: No
+    Suffix-free: No
+     Bifix-free: No
+     Infix-free: No
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Word: aba
+Decodings (2):
+  a┬Àba
+  ab┬Àa
+Is P-prefix admissible? No
+Verifies Proposition 4.3? Yes
+
+Checking if C is P-prefix code relative to L:
+L = {ab, abba, ba, baab, babaa, bababa}
+Result: Yes
+C is P-suffix code relative to L: No
+C is P-suffix code relative to L2: Yes
+============================================================
+Example 3.5 from the paper
+C = {ab, c, ba} relative to L = ({abc} Ôê¬ {cba})*
+============================================================
+Code C = {ab, ba, c}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+L = {abc, abccba, abccbaabc, cba, cbaabc}
+
+Is C a solid code relative to L? No
+
+Word: abccba
+Decodings (1):
+  ab┬Àc┬Àc┬Àba
+Is solid admissible? No
+============================================================
+Example 3.6 from the paper
+C = {a, ba, bcabc} is a split code
+============================================================
+Code C = {a, ba, bcabc}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: No
+     Bifix-free: No
+     Infix-free: No
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Is C a split code? No
+Joins in C: {a}
+
+Testing word: abcabcabc
+Decodings:
+============================================================
+Code Hierarchy Demonstration
+============================================================
+
+Prefix code example:
+Code C = {ab, ba, ca}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Suffix code example:
+Code C = {ab, ac, bc}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Infix code example:
+Code C = {ab, cd, ef}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: Yes
+          Solid: Yes
+
+Outfix code example:
+Code C = {abc, def, ghi}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: Yes
+          Solid: Yes
+
+Hierarchy test (L = C+):
+  C1 is prefix code? Yes
+  C2 is suffix code? Yes
+  C3 is infix code? Yes
+============================================================
+Minimal Generating Set (Proposition 4.5)
+============================================================
+Word q = babaa
+Decodings of q:
+  ba┬Àba┬Àa
+
+Is q P-prefix admissible? Yes
+Minimal generating set Cq = {a, ba}
+Is Cq a prefix code? Yes
+q in Cq+? Yes
+
+All minimal generating sets (1):
+  {a, ba}
+============================================================
+Predicate Comparison Test
+============================================================
+
+Testing: Prefix code (should be prefix-free)
+Code C = {ab, ba}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ô
+      Suffix-free: Ô£ô
+       Bifix-free: Ô£ô
+       Infix-free: Ô£ô
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+
+Testing: Suffix code (should be suffix-free)
+Code C = {ab, bc}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ô
+      Suffix-free: Ô£ô
+       Bifix-free: Ô£ô
+       Infix-free: Ô£ô
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+
+Testing: Infix code
+Code C = {abc, bcd, cde}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ô
+      Suffix-free: Ô£ô
+       Bifix-free: Ô£ô
+       Infix-free: Ô£ô
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+
+Testing: Outfix code
+Code C = {abc, def}
+Properties:
+    Prefix-free: Yes
+    Suffix-free: Yes
+     Bifix-free: Yes
+     Infix-free: Yes
+    Outfix-free: Yes
+   Overlap-free: Yes
+          Solid: Yes
+
+Predicate evaluation results:
+      Prefix-free: Ô£ô
+      Suffix-free: Ô£ô
+       Bifix-free: Ô£ô
+       Infix-free: Ô£ô
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ô
+            Solid: Ô£ô
+       Comma-free: Ô£ù
+
+Testing: Has overlaps
+Code C = {ab, aba, ba}
+Properties:
+    Prefix-free: No
+    Suffix-free: No
+     Bifix-free: No
+     Infix-free: No
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ù
+      Suffix-free: Ô£ù
+       Bifix-free: Ô£ù
+       Infix-free: Ô£ù
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+
+Testing: Has prefixes
+Code C = {a, aa}
+Properties:
+    Prefix-free: No
+    Suffix-free: No
+     Bifix-free: No
+     Infix-free: No
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ù
+      Suffix-free: Ô£ù
+       Bifix-free: Ô£ù
+       Infix-free: Ô£ù
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+
+Testing: Has infixes
+Code C = {ab, abba, ba}
+Properties:
+    Prefix-free: No
+    Suffix-free: No
+     Bifix-free: No
+     Infix-free: No
+    Outfix-free: Yes
+   Overlap-free: No
+          Solid: No
+
+Predicate evaluation results:
+      Prefix-free: Ô£ù
+      Suffix-free: Ô£ù
+       Bifix-free: Ô£ù
+       Infix-free: Ô£ù
+      Outfix-free: Ô£ô
+     Overlap-free: Ô£ù
+            Solid: Ô£ù
+       Comma-free: Ô£ù
+============================================================
+Overlap Detection Test
+============================================================
+overlaps("ab", "bc") = true
+overlaps("abc", "bcd") = true
+overlaps("ab", "cd") = false
+overlaps("aba", "bab") = true
+overlaps("abc", "abc") = false
+============================================================
+Comprehensive Test
+============================================================
+Testing code: {ab, bc, cd, de}
+
+         Prefix-free: Valid code
+         Suffix-free: Valid code
+          Bifix-free: Valid code
+          Infix-free: Valid code
+         Outfix-free: Valid code
+        Overlap-free: Not a valid code
+               Solid: Not a valid code
+          Comma-free: Not a valid code
+           Hypercode: Valid code
+
+P-admissibility test (prefix-free):
+
+ab:
+  Prefix-free admissible: Yes
+  Solid admissible: Yes
+  Decodings (1):
+    ab
+
+abbc:
+  Prefix-free admissible: Yes
+  Solid admissible: No
+  Decodings (1):
+    ab┬Àbc
+
+bcde:
+  Prefix-free admissible: Yes
+  Solid admissible: Yes
+  Decodings (1):
+    bc┬Àde
+
+abcd:
+  Prefix-free admissible: Yes
+  Solid admissible: Yes
+  Decodings (1):
+    ab┬Àcd
+
+abcbcd: Not decodable
+
+bcdeab:
+  Prefix-free admissible: Yes
+  Solid admissible: No
+  Decodings (1):
+    bc┬Àde┬Àab
+============================================================
+Performance Test
+============================================================
+Word: aba
+  Decodings: 3
+  Admissible: No
+  Time: 15 ╬╝s
+Word: ababa
+  Decodings: 6
+  Admissible: No
+  Time: 41 ╬╝s
+Word: babab
+  Decodings: 2
+  Admissible: No
+  Time: 22 ╬╝s
+Word: abababa
+  Decodings: 13
+  Admissible: No
+  Time: 119 ╬╝s
+Word: bababab
+  Decodings: 4
+  Admissible: No
+  Time: 39 ╬╝s
+============================================================
+Simulation Complete
+============================================================
