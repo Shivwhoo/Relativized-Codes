@@ -1,4 +1,4 @@
-// app.js - UI interaction for Relativized Codes Simulator
+// app.js - UI interaction for Relativized Codes Simulator (FIXED)
 
 document.addEventListener('DOMContentLoaded', () => {
     const codewordsInput = document.getElementById('codewords-input');
@@ -12,13 +12,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const wordTestOutput = document.getElementById('word-test-output');
     
     let currentCode = null;
-    let currentWordsArray = [];
 
     // Initialize with default
     analyzeCode();
 
     analyzeBtn.addEventListener('click', analyzeCode);
-    
     testWordBtn.addEventListener('click', testWord);
     
     function parseInput(inputStr) {
@@ -29,8 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
     
     function analyzeCode() {
         const inputStr = codewordsInput.value;
-        currentWordsArray = parseInput(inputStr);
-        currentCode = new window.RelativizedLogic.Code(currentWordsArray);
+        const wordsArray = parseInput(inputStr);
+        currentCode = new window.RelativizedLogic.Code(wordsArray);
         
         // Update display
         codeDisplay.textContent = `C = { ${Array.from(currentCode.codewords).join(', ')} }`;
@@ -38,9 +36,19 @@ document.addEventListener('DOMContentLoaded', () => {
         // Evaluate all predicates
         propertiesResults.innerHTML = '';
         
-        const predicates = Object.values(window.RelativizedLogic.PredicateType);
+        const predicateTypes = [
+            window.RelativizedLogic.PredicateType.PREFIX_FREE,
+            window.RelativizedLogic.PredicateType.SUFFIX_FREE,
+            window.RelativizedLogic.PredicateType.BIFIX_FREE,
+            window.RelativizedLogic.PredicateType.INFIX_FREE,
+            window.RelativizedLogic.PredicateType.OUTFIX_FREE,
+            window.RelativizedLogic.PredicateType.OVERLAP_FREE,
+            window.RelativizedLogic.PredicateType.SOLID,
+            window.RelativizedLogic.PredicateType.COMMA_FREE,
+            window.RelativizedLogic.PredicateType.HYPERCODE
+        ];
         
-        predicates.forEach((ptype, index) => {
+        predicateTypes.forEach((ptype, index) => {
             const pred = new window.RelativizedLogic.Predicate(ptype);
             const passed = pred.evaluate(currentCode.codewords);
             
@@ -59,7 +67,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function testWord() {
-        if (!currentCode) return;
+        if (!currentCode) {
+            wordTestOutput.textContent = "Please analyze a code first (click 'Analyze Properties').";
+            return;
+        }
         
         const rawInput = testWordInput.value;
         const wordsToTest = parseInput(rawInput);
@@ -77,27 +88,31 @@ document.addEventListener('DOMContentLoaded', () => {
         wordsToTest.forEach(word => {
             const decodings = currentCode.getDecodings(word);
             const isAdmissible = currentCode.isPAdmissible(word, pred);
+            const isUnique = currentCode.isUniquelyDecodableFast(word);
             
-            outHtml += `Testing word: <strong>${word}</strong>\n`;
-            outHtml += `Predicate: <strong>${selectedPredicateType}</strong>\n`;
-            outHtml += `P-Admissible? <strong>${isAdmissible ? 'Yes ✅' : 'No ❌'}</strong>\n\n`;
+            outHtml += `<div style="margin-bottom: 1.5rem;">`;
+            outHtml += `<strong>Testing word:</strong> <code style="color: #58a6ff;">${word}</code><br>`;
+            outHtml += `<strong>Predicate:</strong> ${selectedPredicateType}<br>`;
+            outHtml += `<strong>P-Admissible?</strong> <span style="color: ${isAdmissible ? '#3fb950' : '#f85149'}; font-weight: bold;">${isAdmissible ? 'Yes ✓' : 'No ✗'}</span><br>`;
+            outHtml += `<strong>Uniquely decodable?</strong> <span style="color: ${isUnique ? '#3fb950' : '#f85149'};">${isUnique ? 'Yes' : 'No'}</span><br><br>`;
             
-            outHtml += `Number of Decodings found: ${decodings.length}\n`;
+            outHtml += `<strong>Number of Decodings found:</strong> ${decodings.length}<br>`;
             
             if (decodings.length > 0) {
+                outHtml += `<strong>Decodings:</strong><br>`;
                 decodings.forEach((dec, idx) => {
-                    outHtml += `  ${idx + 1}. ${dec.join(' · ')}\n`;
+                    outHtml += `  ${idx + 1}. ${dec.join(' · ')}<br>`;
                 });
             } else {
-                outHtml += `  (No decodings over C found)\n`;
+                outHtml += `  (No decodings over C found)<br>`;
             }
-            outHtml += `\n----------------------------------------\n\n`;
+            outHtml += `</div><hr style="border-color: #2d3748;">`;
         });
         
         // Display
-        wordTestOutput.innerHTML = outHtml;
+        wordTestOutput.innerHTML = outHtml || "No results to display.";
         wordTestOutput.classList.remove('animated');
-        void wordTestOutput.offsetWidth; // trigger reflow
+        void wordTestOutput.offsetWidth;
         wordTestOutput.classList.add('animated');
     }
 });
